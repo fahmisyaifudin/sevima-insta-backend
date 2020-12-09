@@ -23,6 +23,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('story', 'MainController@createStory');
     $router->post('like', 'MainController@like');
     $router->post('comment', 'MainController@comment');
+    $router->post('my-story', 'MainController@myStory');
 
 });
 
