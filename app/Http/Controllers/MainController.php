@@ -122,12 +122,18 @@ class MainController extends Controller
             $input = $this->validate($request, [
                 'post_id' => 'required',
                 'user_id' => 'required',
+                'status' => 'required'
             ]);
 
-            $like = new PostLike();
-            $like->post_id = $input['post_id'];
-            $like->user_id = $input['user_id'];
-            $like->save();
+            if ($input['status']) {
+                $like = new PostLike();
+                $like->post_id = $input['post_id'];
+                $like->user_id = $input['user_id'];
+                $like->save();
+            }else{
+                PostLike::where(['post_id' => $input['post_id'], 'user_id' => $input['user_id']])->delete();
+            }
+           
 
             return $this->successResponse();
         } catch (\Exception $e) {
