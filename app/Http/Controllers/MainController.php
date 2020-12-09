@@ -41,6 +41,31 @@ class MainController extends Controller
             return $this->errorResponse($e->getMessage(), 500);
         }
     }
+    public function detailStory(Request $request)
+    {
+        try {
+            
+            $input = $this->validate($request, [
+                'user_id' => 'required',
+                'post_id' => 'required'
+            ]);
+
+            $posts = Post::where(['id' => $input['post_id']])->with(['comment', 'like'])->first()->toArray();
+
+           
+            $isLiked = PostLike::where(['user_id' => $input['user_id'], 'post_id' => $input['post_id']])->count();
+            if ($isLiked > 0) {
+                $posts['isLiked'] = true;
+            }else{
+                $posts['isLiked'] = false;
+            }
+            
+
+            return $this->successResponse($posts);
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage(), 500);
+        }
+    }
     public function myStory(Request $request)
     {
         $input = $this->validate($request, [
