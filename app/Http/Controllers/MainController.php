@@ -50,7 +50,7 @@ class MainController extends Controller
                 'post_id' => 'required'
             ]);
 
-            $posts = Post::where(['id' => $input['post_id']])->with(['comment', 'like'])->first()->toArray();
+            $posts = Post::where(['id' => $input['post_id']])->with(['user', 'comment', 'like'])->first()->toArray();
 
            
             $isLiked = PostLike::where(['user_id' => $input['user_id'], 'post_id' => $input['post_id']])->count();
